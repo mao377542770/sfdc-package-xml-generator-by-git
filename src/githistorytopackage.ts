@@ -10,7 +10,8 @@ const folderToMetadataTypeMap = new Map([
     ["components", "ApexComponent"],
     ["aura", "AuraDefinitionBundle"],
     ["lwc", "LightningComponentBundle"],
-    ["fields", "CustomField"],              // 項目名のチェックは最初にする
+    ["listViews", "ListView"],
+    ["fields", "CustomField"], // 項目名のチェックは最初にする
     ["objects", "CustomObject"],
     ["permissionsets", "PermissionSet"],
     ["profiles", "Profile"],
@@ -25,6 +26,13 @@ const folderToMetadataTypeMap = new Map([
     ["translations", "Translations"],
     ["remoteSiteSettings", "RemoteSiteSetting"],
     ["labels", "CustomLabels"],
+    ["sharingRules", "SharingRules"],
+    ["applications", "CustomApplication"],
+    ["cachePartitions", "PlatformCachePartition"],
+    ["connectedApps", "ConnectedApp"],
+    ["contentassets", "ContentAsset"],
+    ["customMetadata", "CustomMetadata"],
+    ["globalValueSets", "GlobalValueSet"],
     // 今後追加...
 ]);
 
@@ -62,6 +70,7 @@ export class GitHistoryToPackageXMLController {
 
     /**
      * 2つのCommitの履歴に差分するファイルを取得する
+     * 削除したファイルが含まない
      * @author wu.chunshu
      *
      * @public
@@ -77,9 +86,9 @@ export class GitHistoryToPackageXMLController {
         return new Promise((resolve, reject) => {
             let gitCommand: string;
             if (commit2) {
-                gitCommand = `git diff --name-only ${commit1} ${commit2}`;
+                gitCommand = `git diff --name-only --diff-filter=AMR ${commit1} ${commit2}`;
             } else {
-                gitCommand = `git diff --name-only ${commit1}^ ${commit1}`;
+                gitCommand = `git diff --name-only --diff-filter=AMR ${commit1}^ ${commit1}`;
             }
 
             exec(
@@ -123,14 +132,24 @@ export class GitHistoryToPackageXMLController {
             }
 
             // 親メタデータの
-            let parentMeta = '';
-            if(['fields'].includes(metadataType)) {
-                const match = file.match(/(?:\\([^\\]+))(?:\\[^\\]+){2}(?=\\[^\\]+$)/);
-                parentMeta = match ? match[1] + '.' : '';
+            let parentMeta = "";
+            if (["CustomField", "ListView"].includes(metadataType)) {
+                const match = file.match(/(?<=objects\/).*?(?=\/)/);
+                parentMeta = match ? match[0] + "." : "";
             }
 
+            if (metadataType === "Layout") {
+                file = decodeEscapedString(file);
+            }
+
+            let dotIndex = file.indexOf(".");
             // ファイル名 ⇒ メタデータ名に変更
-            const fileName = parentMeta + path.basename(file, file.substring(file.indexOf('.'))); // 拡張子とファイルパスをクリアする
+            if (["CustomMetadata"].includes(metadataType)) {
+                dotIndex = file.indexOf(".", dotIndex + 1); // 第二.から
+            }
+
+            const fileName =
+                parentMeta + path.basename(file, file.substring(dotIndex)); // 拡張子とファイルパスをクリアする
 
             if (!classified[metadataType]) {
                 classified[metadataType] = [];
@@ -159,4 +178,25 @@ export class GitHistoryToPackageXMLController {
         xml += "  <version>60.0</version>\n</Package>";
         return xml;
     }
+}
+
+/**
+ * レイアウト名を変換する
+ * @param escapedString 
+ * @returns 
+ */
+
+function decodeEscapedString(escapedString: string) {
+    // 将 \ 替换为 %，以便使用 decodeURIComponent 解码
+    const percentEncodedString = escapedString.replace(
+        /\\([0-7]{3})/g,
+        function (match, octal) {
+            return (
+                "%" +
+                parseInt(octal, 8).toString(16).padStart(2, "0").toUpperCase()
+            );
+        }
+    );
+    // 使用 decodeURIComponent 解码
+    return decodeURIComponent(percentEncodedString);
 }
