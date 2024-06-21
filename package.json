@@ -2,7 +2,7 @@
     "name": "git-history-to-package-xml",
     "displayName": "GitHistoryToPackageXML",
     "description": "get salesforce package.xml file by git commit history",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "engines": {
         "vscode": "^1.90.0"
     },
