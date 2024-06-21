@@ -46,5 +46,10 @@
     },
     "dependencies": {},
     "license": "MIT",
-    "author": "haruki"
+    "author": "haruki",
+    "publisher": "haruki",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mao377542770/githistorytopackagexml.git"
+    }
 }
