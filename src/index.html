@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Git Commit IDs(SHA)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #bbbbbb;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            margin-bottom: 15px;
+            padding: 3px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007acc;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        .red {
+          color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>SFDC Package.xml Generator By Git History</h1>
+    <form id="commitForm">
+        <div class="form-group">
+            <label for="commit1"><span class="red">*</span>First Commit ID:</label>
+            <input type="text" id="commit1" name="commit1">
+        </div>
+        <div class="form-group">
+            <label for="commit2">Second Commit ID:</label>
+            <input type="text" id="commit2" name="commit2">
+        </div>
+        <button type="button" onclick="submitCommits()">Generate</button>
+    </form>
+    <script>
+        const vscode = acquireVsCodeApi();
+
+        function submitCommits() {
+            const commit1 = document.getElementById('commit1').value;
+            const commit2 = document.getElementById('commit2').value;
+            if(!commit1) return;
+            vscode.postMessage({
+                command: 'submit',
+                commit1: commit1,
+                commit2: commit2
+            });
+        }
+    </script>
+</body>
+</html>
