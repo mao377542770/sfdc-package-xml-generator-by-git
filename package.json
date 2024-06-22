@@ -2,7 +2,7 @@
     "name": "sfdc-package-xml-generator-by-git",
     "displayName": "SFDC Package.xml Generator By Git History",
     "description": "Create Salesforce Package.xml file by git commit history",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "engines": {
         "vscode": "^1.90.0"
     },
