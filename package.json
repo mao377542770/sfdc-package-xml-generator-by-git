@@ -7,7 +7,16 @@
         "vscode": "^1.90.0"
     },
     "categories": [
-        "Other"
+        "Other",
+        "Extension Packs",
+        "Data Science"
+    ],
+    "keywords": [
+        "git",
+        "salesforce",
+        "sfdc",
+        "package.xml",
+        "deploy"
     ],
     "activationEvents": [
         "onCommand:gitsfxml"
