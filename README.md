@@ -6,9 +6,9 @@ This is a tool that can convert the diff files between two Git commits into a Sa
 
 ### Conditions of use
 
-1.Ensure that git is installed.
-2.Ensure that a git repository exists.
-3.Ensure the file belongs to Salesforce Metadata files.
+1.Ensure that git is installed. <br>
+2.Ensure that a git repository exists. <br>
+3.Ensure the file belongs to Salesforce Metadata files. <br>
 
 ### Usage
 ![Usage](getPackageXmlAnima.gif)
@@ -19,5 +19,5 @@ If there are any issues during use, you can contact the author. However, I do no
 
 
 
-Author: Haruki
+Author: Haruki <br>
 GitHub: mao377542770
