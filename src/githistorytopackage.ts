@@ -92,7 +92,7 @@ export class GitHistoryToPackageXMLController {
             }
         );
 
-        const htmlPath = path.join(this.context.extensionPath, "src/index.html");
+        const htmlPath = path.join(this.context.extensionPath, "./src/index.html");
         const htmlContent = fs.readFileSync(htmlPath, "utf8");
         panel.webview.html = htmlContent;
 
