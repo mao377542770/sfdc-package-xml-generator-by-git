@@ -3,6 +3,10 @@
     "displayName": "SFDC Package.xml Generator By Git History",
     "description": "Create Salesforce Package.xml file by git commit history",
     "version": "1.0.2",
+    "files": [
+        "out",
+        "src/index.html"
+    ],
     "engines": {
         "vscode": "^1.90.0"
     },
